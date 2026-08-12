@@ -1,0 +1,850 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Proyecto STEAM+T 2026 sobre robótica e inteligencia artificial para apoyar la prevención comunitaria en el Cauca.">
+  <meta name="theme-color" content="#edf4f7">
+  <title>STEAM+T 2026 · Tecnología para la Paz</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <style>
+    :root{
+      --ink:#294452;
+      --muted:#627784;
+      --paper:#f5f8fa;
+      --surface:rgba(255,255,255,.78);
+      --line:rgba(70,106,124,.16);
+      --blue:#5f8296;
+      --green:#86a98e;
+      --gold:#c5a867;
+      --lilac:#9d91b5;
+      --shadow:0 20px 55px rgba(48,75,89,.12);
+      --radius:28px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:92px}
+    body{margin:0;font-family:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;color:var(--ink);background:linear-gradient(180deg,#edf4f7 0%,#f8f5ef 52%,#eef4f1 100%);line-height:1.72}
+    a{color:#3e7189}
+    img{max-width:100%;display:block}
+    .star-trail{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:50}
+    .site-nav{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:20px;padding:10px clamp(16px,4vw,56px);background:rgba(246,250,251,.9);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+    .brand{display:flex;align-items:center;gap:10px;flex:0 0 auto;text-decoration:none;color:var(--ink);font-weight:800}
+    .brand img{width:46px;height:46px;object-fit:contain}
+    .nav-links{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;padding:4px 0;margin-left:auto}
+    .nav-links a{white-space:nowrap;text-decoration:none;color:var(--ink);font-size:.84rem;font-weight:700;padding:8px 11px;border-radius:999px}
+    .nav-links a:hover,.nav-links a:focus-visible{background:#e1edf1;outline:none}
+    .site-hero{min-height:calc(100vh - 67px);position:relative;isolation:isolate;display:grid;place-items:center;padding:clamp(54px,10vw,120px) clamp(20px,6vw,90px);overflow:hidden}
+    .site-hero::before,.site-hero::after{content:"";position:absolute;border-radius:50%;filter:blur(2px);z-index:-1}
+    .site-hero::before{width:62vw;height:62vw;left:-24vw;top:-24vw;background:radial-gradient(circle,rgba(141,179,194,.32),transparent 67%)}
+    .site-hero::after{width:50vw;height:50vw;right:-16vw;bottom:-20vw;background:radial-gradient(circle,rgba(198,176,113,.23),transparent 68%)}
+    .hero-inner{width:min(1120px,100%);display:grid;grid-template-columns:minmax(0,1.45fr) minmax(260px,.55fr);gap:clamp(36px,7vw,96px);align-items:center}
+    .hero-copy{max-width:780px}
+    .eyebrow,.section-kicker{display:inline-flex;align-items:center;gap:8px;letter-spacing:.12em;text-transform:uppercase;font-size:.74rem;font-weight:800;color:#5e7d8e}
+    .eyebrow::before,.section-kicker::before{content:"";width:26px;height:1px;background:currentColor}
+    h1,h2,h3,h4{font-family:Georgia,"Times New Roman",serif;line-height:1.12;margin-top:0;color:#294653}
+    h1{font-size:clamp(3.1rem,7vw,6.9rem);margin:.22em 0 .3em;letter-spacing:-.045em}
+    h2{font-size:clamp(2.35rem,5vw,4.5rem);margin:.18em 0 .35em;letter-spacing:-.035em}
+    h3{font-size:clamp(1.25rem,2.2vw,1.7rem)}
+    h4{font-size:1.05rem}
+    .hero-lead{font-size:clamp(1.05rem,1.8vw,1.35rem);max-width:720px;color:#4f6874}
+    .hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin:28px 0}
+    .pill{display:inline-flex;padding:8px 13px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.58);font-size:.88rem;font-weight:700}
+    .button{display:inline-flex;align-items:center;justify-content:center;padding:13px 20px;border-radius:999px;background:#547a8e;color:white;text-decoration:none;font-weight:800;box-shadow:0 10px 28px rgba(63,104,126,.18)}
+    .hero-mark{position:relative;display:grid;place-items:center;aspect-ratio:1;border:1px solid rgba(67,113,137,.22);border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,rgba(220,236,241,.72) 42%,rgba(160,190,201,.22));box-shadow:var(--shadow)}
+    .hero-mark::before{content:"IA";font:700 clamp(3.4rem,8vw,6.6rem)/1 Georgia,serif;color:#315a6e}
+    .hero-mark img{position:absolute;width:72px;right:8%;top:8%;filter:drop-shadow(0 6px 12px rgba(40,70,86,.18))}
+    main{overflow:hidden}
+    .research-section{padding:clamp(76px,9vw,128px) clamp(20px,5vw,72px);content-visibility:auto;contain-intrinsic-size:900px}
+    .research-section:nth-of-type(even){background:rgba(255,255,255,.38)}
+    .section-inner{width:min(1120px,100%);margin:0 auto}
+    .section-head{max-width:820px;margin-bottom:40px}
+    .section-head>p{font-size:1.1rem;color:var(--muted)}
+    .grid-2,.grid-3{display:grid;gap:22px}
+    .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .panel,.member-card,.learning-card,.stat-card,.evidence-item,.visual-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .panel{padding:clamp(24px,4vw,42px)}
+    .panel p:last-child{margin-bottom:0}
+    .lead-panel{border-top:4px solid #8eaeb9}
+    .team-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+    .member-card{padding:34px;display:grid;grid-template-columns:76px 1fr;gap:20px;align-items:center}
+    .avatar{width:76px;height:76px;border-radius:24px;display:grid;place-items:center;background:linear-gradient(135deg,#b9d4dc,#ddd2e5);font:700 1.6rem/1 Georgia,serif;color:#385d6d}
+    .member-card h3{margin:0 0 7px}
+    .member-card p{margin:0;color:var(--muted)}
+    .map-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:28px;align-items:start}
+    .map-card{position:sticky;top:100px;padding:22px;background:rgba(255,255,255,.76);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .map-card img{width:100%;border-radius:20px;background:#d9e6eb}
+    .map-card figcaption,.visual-card figcaption{padding:14px 6px 2px;color:var(--muted);font-size:.9rem}
+    details.read-more{margin-top:18px;border-top:1px solid var(--line);padding-top:16px}
+    details summary{cursor:pointer;font-weight:800;color:#41697b}
+    .question-callout{margin-top:26px;padding:28px;border-left:4px solid var(--gold);background:rgba(255,255,255,.66);border-radius:0 22px 22px 0;font:700 clamp(1.3rem,2.5vw,2rem)/1.35 Georgia,serif}
+    .objective-main{padding:38px;border-radius:var(--radius);background:linear-gradient(135deg,rgba(90,128,149,.9),rgba(115,153,139,.88));color:white;box-shadow:var(--shadow)}
+    .objective-main h3{color:white}
+    .objective-card{padding:30px;border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.68)}
+    .objective-card span{font-weight:900;color:#7898a6}
+    .concept-stack{display:grid;gap:16px}
+    .concept-stack details{padding:26px 30px;border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.7)}
+    .concept-stack summary{font:700 1.25rem/1.25 Georgia,serif}
+    .concept-stack details[open] summary{margin-bottom:18px}
+    .method-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+    .method-card{padding:28px;border-radius:24px;background:rgba(255,255,255,.68);border:1px solid var(--line)}
+    .method-card.wide{grid-column:1/-1}
+    .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin:28px 0 36px}
+    .stat-card{padding:25px}
+    .stat-card strong{display:block;font:700 clamp(2rem,4vw,3.5rem)/1 Georgia,serif;color:#4f7b8c;margin-bottom:8px}
+    .stat-card span{font-size:.9rem;color:var(--muted)}
+    .analysis-note{padding:26px 30px;border-radius:22px;background:#e5efed;border:1px solid rgba(105,147,132,.18)}
+    .visual-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;margin:34px 0}
+    .visual-card{padding:18px;margin:0;overflow:hidden}
+    .visual-card img{width:100%;border-radius:18px}
+    .evidence-list{display:grid;gap:10px;margin-top:28px}
+    .evidence-item{overflow:hidden}
+    .evidence-item summary{display:grid;grid-template-columns:80px 1fr;gap:14px;align-items:center;padding:18px 22px;list-style:none}
+    .evidence-item summary::-webkit-details-marker{display:none}
+    .evidence-item summary::after{content:"+";grid-column:3;font-size:1.3rem;color:#7894a2}
+    .evidence-item[open] summary::after{content:"−"}
+    .evidence-id{font-size:.76rem;letter-spacing:.08em;color:#718b98}
+    .evidence-body{padding:4px 24px 24px;border-top:1px solid var(--line)}
+    .evidence-meta{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+    .evidence-meta span{padding:5px 9px;border-radius:999px;background:#edf3f5;font-size:.78rem;font-weight:700}
+    .source-link{display:inline-flex;margin-top:10px;font-weight:800}
+    .conclusion-panel{padding:clamp(30px,5vw,54px);border-radius:var(--radius);background:#2f5364;color:#eef7f8;box-shadow:var(--shadow)}
+    .conclusion-panel h2{color:white}
+    .film-frame{display:grid;grid-template-columns:.62fr 1.38fr;gap:30px;align-items:center;padding:clamp(28px,5vw,54px);border-radius:var(--radius);background:linear-gradient(145deg,#354c58,#243944);color:#edf5f6;box-shadow:var(--shadow)}
+    .film-icon{aspect-ratio:16/11;display:grid;place-items:center;border:1px solid rgba(255,255,255,.18);border-radius:24px;background:radial-gradient(circle,rgba(164,197,208,.18),transparent 68%)}
+    .film-icon::before{content:"▶";font-size:4rem;color:#d7c58f}
+    .film-frame h2{color:white}
+    .references-group{margin:16px 0;padding:0;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.68)}
+    .references-group summary{padding:20px 24px;font-size:1.05rem}
+    .references-group ol{margin:0;padding:0 38px 24px 54px}
+    .references-group li{margin:10px 0;overflow-wrap:anywhere}
+    .references-group a{text-decoration-thickness:1px;text-underline-offset:3px}
+    .learning-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .learning-card{position:relative;padding:28px;overflow:hidden}
+    .learning-number{position:absolute;right:16px;top:8px;font:700 3.4rem/1 Georgia,serif;color:rgba(83,124,143,.1)}
+    .learning-card h3{padding-right:46px}
+    .site-footer{padding:38px 20px;text-align:center;color:#657a85;border-top:1px solid var(--line)}
+    .site-footer strong{color:var(--ink)}
+    :focus-visible{outline:3px solid rgba(74,129,154,.42);outline-offset:4px}
+    @media(max-width:900px){
+      .hero-inner,.map-layout,.film-frame{grid-template-columns:1fr}
+      .hero-mark{width:min(360px,74vw);justify-self:center}
+      .map-card{position:relative;top:auto}
+      .grid-3,.learning-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .visual-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:640px){
+      .brand span{display:none}
+      .site-nav{padding-inline:12px}
+      .grid-2,.grid-3,.team-grid,.method-grid,.learning-grid{grid-template-columns:1fr}
+      .method-card.wide{grid-column:auto}
+      .member-card{grid-template-columns:62px 1fr;padding:24px}
+      .avatar{width:62px;height:62px}
+      .stats{grid-template-columns:1fr 1fr}
+      .evidence-item summary{grid-template-columns:1fr;padding:17px}
+      .evidence-item summary::after{grid-column:2;grid-row:1}
+      .evidence-id{display:none}
+    }
+    @media(pointer:coarse){.star-trail{display:none}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  </style>
+</head>
+<body>
+  <canvas class="star-trail" id="starTrail" aria-hidden="true"></canvas>
+  <nav class="site-nav" aria-label="Navegación principal">
+    <a class="brand" href="#portada"><img src="logo.png" alt="Logo STEAM+T"><span>STEAM+T 2026</span></a>
+    <div class="nav-links">
+      <a href="#portada">Portada</a><a href="#resumen">Resumen</a><a href="#equipo">Equipo</a>
+      <a href="#cauca">Cauca</a><a href="#problema">Problema</a><a href="#objetivos">Objetivos</a>
+      <a href="#marco">Marco conceptual</a><a href="#metodologia">Metodología</a>
+      <a href="#resultados">Resultados</a><a href="#conclusiones">Conclusiones</a>
+      <a href="#cortometraje">Cortometraje</a><a href="#referencias">Referencias</a>
+      <a href="#aprendizajes">Aprendizajes</a>
+    </div>
+  </nav>
+
+  <header class="site-hero" id="portada">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">Robótica e inteligencia artificial</span>
+        <h1>Tecnología para la Paz</h1>
+        <p class="hero-lead">Proyecto de investigación STEAM+T sobre el uso responsable de la inteligencia artificial, la robótica y las matemáticas para apoyar la prevención comunitaria en territorios del Cauca afectados por el conflicto armado.</p>
+        <div class="hero-meta"><span class="pill">Dania Jireth Cabrera Peña</span><span class="pill">Habyba Sarita Martínez Guaidia</span><span class="pill">Cibercolegio UCN · 2026</span></div>
+        <a class="button" href="#resumen">Leer la investigación</a>
+      </div>
+      <div class="hero-mark" aria-hidden="true"><img src="logo.png" alt=""></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="research-section" id="resumen">
+      <div class="section-inner">
+        <div class="section-head"><span class="section-kicker">01 · Punto de partida</span><h2>Resumen e introducción</h2></div>
+        <div class="grid-2">
+          <article class="panel lead-panel"><h3>Resumen</h3><p>Esta investigación escolar analiza de qué manera una propuesta de inteligencia artificial y robótica, diseñada con enfoque de seguridad humana, podría apoyar la detección temprana de riesgos en comunidades vulnerables del Cauca. El proyecto integra revisión documental, análisis territorial, diseño conceptual y un modelo trigonométrico sencillo para estimar el alcance de observación de un sensor. No plantea reemplazar a las autoridades ni tomar decisiones automáticas: la tecnología se entiende como una herramienta de apoyo bajo control humano y comunitario.</p></article>
+          <article class="panel"><h3>Introducción</h3><p>El acceso oportuno a información confiable puede ayudar a prevenir daños, coordinar respuestas y proteger vidas. Sin embargo, en territorios afectados por el conflicto, cualquier sistema de monitoreo también puede generar riesgos si recopila datos personales, identifica habitantes o se utiliza sin consentimiento. Por ello, la propuesta combina innovación técnica con principios de privacidad, participación comunitaria, verificación humana y uso exclusivamente civil.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="research-section" id="equipo">
+      <div class="section-inner">
+        <div class="section-head"><span class="section-kicker">02 · Autoras</span><h2>Equipo</h2><p>Estudiantes responsables de la investigación STEAM+T del Cibercolegio UCN.</p></div>
+        <div class="team-grid">
+          <article class="member-card"><div class="avatar" aria-hidden="true">HM</div><div><h3>Habyba Sarita Martínez Guaidia</h3><p>Investigadora · Cibercolegio UCN · 2026</p></div></article>
+          <article class="member-card"><div class="avatar" aria-hidden="true">DC</div><div><h3>Dania Jireth Cabrera Peña</h3><p>Investigadora · Cibercolegio UCN · 2026</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="research-section" id="cauca">
+      <div class="section-inner">
+        <div class="section-head"><span class="section-kicker">03 · Territorio</span><h2>Cauca, Colombia</h2><p>1.1 El conflicto armado en Colombia y su impacto en el Cauca</p></div>
+        <div class="map-layout">
+          <div class="panel">
+            <p>Colombia lleva más de seis décadas viviendo un conflicto armado que aunque muchos creen que terminó con el Acuerdo de Paz de 2016 la verdad es que en departamentos como el Cauca sigue siendo una realidad muy presente y muy dolorosa siento que a veces desde afuera se piensa que eso ya pasó pero los datos dicen otra cosa según el CINEP/Programa por la Paz ( del 2024) la violencia en el Cauca responde a dinámicas de territorialidades sociales muy complejas donde pues los grupos armados no solo buscan control militar sino también económico y político como tal eso significa que cualquier solución tiene que ir mucho más allá de lo puramente militar ya que el problema tiene raíces muy profundas en la desigualdad el abandono estatal y las economías ilegales que llevan décadas instaladas en esos territorios.</p><p>Ahora la Unidad para las Víctimas (2024) reportó que en 2023 se incluyeron más de 30.912 víctimas en el Registro Único de Víctimas por hechos ocurridos en el Cauca y además para el primer trimestre de 2024 ya había otras 399 nuevas víctimas registradas esas cifras no son solo números ya que detrás de cada registro hay una familia y hay niños hay una persona que tuvo que dejar su casa o que perdió a alguien cercano y la mayoría de veces siendo inocentes pero da igual pagan los platos rotos y bueno esta situación no mejoró con el tiempo en 2026 se intensificó aún más porque según la Defensoría del Pueblo y más de 9.300 personas en el Cauca se vieron restringida su libertad de movimiento comenzó de nuevo a pasar lo mismo que antes subiera Álvaro Uribe Vélez en el 2002, las carreteras de Colombia estaban bajo el control y el asedio constante de los grupos armados principalmente era las FARC era la que más dominio territorial tenía y limitaba la movilidad de los ciudadanos lo que ellos digieran se hacía, la política “Seguridad Democrática”  fue como tal esa política de seguridad que se implementó y fue Álvaro Uribe(2002-2010) quien busco recuperar el territorio del estado combatir contra los grupos armados, fue una estrategia clave para debilitar esas estructuras y se hizo una gran inversión en las Fuerzas Armadas fue el “Plan Patriota”(2003-2006) y lo logro el país su seguridad mejoro.</p>
+            <details class="read-more"><summary>Leer el contexto territorial completo</summary><p>Siguiendo el tema solo entre enero y marzo convirtiéndose en el departamento más golpeado por el confinamiento forzado a nivel nacional superando incluso a Chocó y también el Caquetá el confinamiento básicamente significa que comunidades enteras no pueden moverse libremente porque los grupos armados controlan las rutas y cualquier movimiento representa un riesgo de vida</p><p>Lo que más nos impactó fue enterarnos de que en junio de 2026 se registraron ataques con drones cargados de explosivos en zonas rurales del municipio de Suárez, donde cinco menores de edad y dos adultos resultaron heridos (El Espectador 2026) Que grupos ilegales estén usando drones como armas ofensivas es una señal de que el conflicto también se está transformando tecnológicamente están hasta más avanzados que el mismo ejército y eso nos parece importante para entender por qué nuestra propuesta tiene sentido porque demuestra que si funciona lo malo es que en vez del ejercito si lo pone a cabo la guerrilla</p><p>Ideas para la Paz (2026) documentó más de 600 ataques en Cauca y Valle del Cauca desde 2022 lo que evidencia que la violencia no solo persiste, sino que en ciertos períodos se ha intensificado la disputa entre los GAOR, que son los grupos que se conformaron luego de la desmovilización de las antiguas FARC, y el ELN es la principal causa de esta crisis, ya que cada uno busca controlar corredores para el narcotráfico y otras economías ilegales.</p><p>Pues más allá de los datos lo que más pesa es el impacto humano el desplazamiento forzado obliga a las familias a dejar sus tierras y perder todo lo que construyeron el confinamiento les quita la libertad de trabajar de llevar a sus hijos al médico o al colegio y el reclutamiento de menores que documentamos también a través de fuentes audiovisuales como el documental Cauca: Zona de Guerra (Primera Voz, 2025) afecta directamente a los jóvenes de esas comunidades que en muchos casos son llevados a la fuerza.</p><p>Proclama del Pacífico (2026) lo describe como un territorio atrapado entre la violencia y el abandono estatal, y creo que esa frase lo resume bastante bien las comunidades no tienen acceso suficiente a protección justicia ni servicios básicos y eso las hace todavía más vulnerables, ahí es donde nosotras empezamos a preguntarnos si la tecnología podría ayudar a llenar algunos de esos vacíos no es como un reemplazo del Estado sino como un apoyo real que se necesita</p></details>
+          </div>
+          <figure class="map-card"><img src="cauca-dane-map.png" alt="Mapa del departamento del Cauca en Colombia" loading="lazy" decoding="async"><figcaption>Departamento del Cauca, territorio central de la investigación.</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="research-section" id="problema">
+      <div class="section-inner">
+        <div class="section-head"><span class="section-kicker">04 · Investigación</span><h2>Planteamiento del problema</h2><p><strong>Línea de investigación: Tecnología, medios de comunicación y construcción social del conflicto armado</strong><br>Tema: Robótica e Inteligencia artificial para combatir el conflicto armado en Colombia</p></div>
+        <article class="panel"><p>Planteamiento del problema: En Colombia, especialmente en las zonas que han sido afectadas por el conflicto armado, todavía existen muchos problemas de inseguridad y violencia que afectan directamente a las comunidades. Muchas personas viven con miedo, con pocas oportunidades y con dificultades para acceder a protección o apoyo por parte de las autoridades. Esto se debe, en parte, a la presencia de grupos armados, la falta de recursos y las limitaciones para vigilar y controlar lo que ocurre en estos territorios.</p><p>Aunque se han intentado diferentes estrategias para mejorar la seguridad, muchas veces estas no son suficientes o no logran prevenir los problemas a tiempo. Por eso, es importante buscar nuevas alternativas. En este caso, la robótica y la inteligencia artificial pueden ser herramientas muy útiles, ya que permiten analizar información, vigilar zonas de difícil acceso y detectar posibles riesgos antes de que ocurran situaciones graves.</p><p>Por esta razón, es necesario estudiar cómo estas tecnologías pueden ayudar a prevenir la violencia y mejorar la seguridad en las zonas más vulnerables del país, buscando así proteger a las comunidades y brindarles mejores condiciones de vida, ya que esto sigue siendo una problemática que no se ha logrado resolver del todo.</p><div class="question-callout">Pregunta de investigación: ¿Puede la inteligencia artificial ayudar a la comunidad del Cauca, siendo esta una de las más afectadas por el conflicto armado generado en Colombia?</div></article>
+      </div>
+    </section>
+
+    <section class="research-section" id="objetivos">
+      <div class="section-inner">
+        <div class="section-head"><span class="section-kicker">05 · Propósito</span><h2>Objetivo general y objetivos específicos</h2></div>
+        <article class="objective-main"><h3>Objetivo general</h3><p>Analizar cómo la robótica y la inteligencia artificial previenen la violencia, protegen las comunidades y mejoran la seguridad en zonas vulnerables del departamento del Cauca.</p></article>
+        <div class="grid-2" style="margin-top:22px">
+          <article class="objective-card"><span>Matemáticas</span><h3>Alcance de vigilancia</h3><p>Determinar el alcance de los sistemas de vigilancia en zonas vulnerables del Cauca mediante el uso de razones trigonométricas, para evaluar la efectividad de la seguridad y optimizar el uso de recursos tecnológicos.</p></article>
+          <article class="objective-card"><span>Artística y tecnología</span><h3>Cortometraje documental</h3><p>Crear un cortometraje documental, actuado en la finca que explique de manera clara y cercana la problemática de la inseguridad en el Cauca y muestre propuestas tecnológicas (IA, drones, robótica) aplicables a contextos rurales.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="research-section" id="marco">
+      <div class="section-inner">
+        <div class="section-head"><span class="section-kicker">06 · Fundamentos</span><h2>Marco conceptual</h2></div>
+        <article class="panel" style="margin-bottom:18px"><p>Bueno pues para entender bien de qué va este proyecto pues básicamente hay que tener claros los conceptos que lo sostienen porque si no todo lo que proponemos después no tendría base sólida la verdad es que cuando empezamos a investigar este tema nos dimos cuenta de que no es algo sencillo ya que el conflicto armado en el Cauca tiene capas y capas de cosas que se conectan entre sí y la tecnología tampoco es tan simple como parece porque cuando un país no ha avanzado sino que se queda estancado en el desarrollo tecnológico muchas vías son trancadas como esta, ya que en varios países se ha notado un desarrollo real contra sus conflictos armados con robótica e inteligencia artificial como es el caso de Ucrania donde la IA cambió completamente la dinámica del conflicto mientras que en Colombia el avance en ese sentido todavía es muy limitado aunque ya hay investigaciones que empiezan a explorar esa posibilidad pero eso ya lo verán más adelante.</p><p>Entonces el marco teórico lo organizamos en tres partes grandes principalmente está todo lo del conflicto armado en el Cauca y cómo afecta a las comunidades porque sentimos que sin entender eso primero no tiene mucho sentido hablar de soluciones tecnológicas. ¿Después viene todo lo de la inteligencia artificial y la robótica qué son y cómo funcionan y cómo se podrían aplicar en un contexto como este y ya por último está el marco jurídico y ético que fue lo que más nos hizo pensar bastante y debatir ya que usar tecnología en medio de un conflicto armado tiene unos límites muy importantes que no se pueden ignorar ni cuestionar y por qué? Bueno ya verán</p></article>
+        <div class="concept-stack">
+          <details open><summary>Inteligencia artificial y robótica aplicadas a contextos de seguridad</summary><p>Inteligencia Artificial y Robótica aplicadas a contextos de seguridad</p><p>La inteligencia artificial y la robótica ya no son cosas del futuro ni de películas de ciencia ficción como mayormente esta generación ha visto el tema, jamás la mayoría había visto que era la guerra y a veces los parientes que sufrieron eso no lo comentan y la importancia baja bastante y a veces se pueden dejar llevar por lo que dicen los demás sin ni siquiera investigar y siento que a veces la gente no se da cuenta de eso porque lo ve como algo muy lejano o muy complicado pero la verdad es que hoy en día estas tecnologías están metidas en un montón de aspectos en las guerras y además en la vida cotidiana desde el celular que usamos hasta los sistemas de seguridad de ciudades enteras.</p><p>Y también se están usando cada vez más en contextos de seguridad y apoyo humanitario que es básicamente de lo que trata esta parte del proyecto lo que más nos llamó la atención fue cuando empezamos a investigar esto fue darnos cuenta de que no es solo tecnología por tecnología ya que detrás de cada sistema hay una intención y esa intención puede ser proteger o puede ser destruir y esa diferencia es enorme es para entender cómo podría aplicarse al caso del Cauca primero que nada hay que saber qué es exactamente la IA y qué puede y qué no puede hacer porque no algo que es mágica ni perfecta y eso también importa la inteligencia artificial o IA pues es básicamente la capacidad de un sistema computacional para realizar tareas que normalmente requieren inteligencia humana que son quienes la crean y la hacer reconocer patrones aprender de datos o tomar decisiones a partir de información Matiz Rojas y Fernández Camargo (2023) explican que la IA puede ser empleada en conflictos armados tanto como un medio como un método ya que aporta información sobre todas las fases del ambiente operacional y ayuda a reducir el nivel de incertidumbre en términos sencillos significa que puede analizar mucha información muy rápido, identificar patrones de riesgo y ayudar a tomar decisiones más informadas antes de que pase algo grave y confirmar ubicaciones</p><p>Y eso no es solo teoría ya que Noticias Uno y la Comisión de la Verdad de Colombia (2023) ya mostraron que la IA se está usando para aprender patrones de los casos públicos del conflicto colombiano y convertirlos en explicaciones accesibles para cualquier persona ya que la tecnología también puede ayudar a entender el pasado del conflicto no solo a prevenir el futuro y eso nos parece importante porque muchas veces se piensa que la IA solo sirve para cosas muy técnicas o muy militares pero la verdad es que también puede ser una herramienta para construir memoria para que las comunidades entiendan qué pasó y por qué y eso en sí mismo ya es una forma de sanar como lo están haciendo muchos países que llevan más tiempo explorando estas posibilidades Colombia al fin está empezando a implementarlo aunque todavía de forma muy limitada y en parte por falta de recursos y buen apoyo del Gobierno y siento que ese es exactamente el punto de partida desde donde nosotras queremos aportar algo con este proyecto</p><p>Una de las aplicaciones más interesantes es la combinación de la IA con la robótica, especialmente con drones y sistemas de vigilancia los drones con IA pueden sobrevolar zonas de difícil acceso como selvas o montañas y enviar información en tiempo real sobre movimientos sospechosos o situaciones de riesgo y se verifiquen, Cano Cuevas (2023), en su investigación para la Universidad Externado de Colombia estudia específicamente el caso de los drones para operaciones contra grupos armados organizados en el posacuerdo Colombiano y aunque su enfoque es más militar nos sirve para entender cómo estas tecnologías ya se están pensando dentro del contexto Colombiano</p><p>Desde el ámbito internacional de Santayana y de Olea (2024) analizan cómo la IA se está usando en la guerra de Ucrania donde los sistemas de vigilancia y análisis de datos cambiaron la forma en que se desarrollan los conflictos modernos El Cauca no es Ucrania claro es obvio pero los principios tecnológicos son los mismos: usar la IA para procesar información más rápido y tomar mejores decisiones en contextos de riesgo</p><p>En nuestra propuesta específicamente, la idea es usar drones con sensores para vigilar zonas rurales del Cauca donde las comunidades están en riesgo de confinamiento o ataque, y sistemas de análisis de datos para detectar patrones de violencia y generar alertas tempranas. No como armas, sino como herramientas de protección y prevención, que es una distinción enorme y que creemos que es fundamental mantener.</p><p>Desde matemáticas, uno de nuestros objetivos específicos es calcular el alcance de esos sistemas de vigilancia usando razones trigonométricas, porque para saber qué tan efectivo puede ser un dron en una zona específica hay que calcular su ángulo de cobertura, su altura de vuelo y el área que puede monitorear desde esa posición. Las relaciones trigonométricas básicas como el seno, el coseno y la tangente permiten hacer esos cálculos a partir de información limitada, y eso le da al proyecto una dimensión práctica y cuantificable que va más allá de la pura teoría.</p></details>
+          <details><summary>Marco jurídico y ético: límites que no se pueden ignorar</summary><p>Siento que este fue el bloque que más nos hizo reflexionar, porque uno asume que la tecnología siempre es neutra, que es una herramienta y ya, pero la verdad es que cuando se habla de usarla en contextos de conflicto armado, las implicaciones éticas y jurídicas son enormes y no se pueden pasar por alto.</p><p>El Derecho Internacional Humanitario, o DIH, es el conjunto de normas internacionales que regulan los conflictos armados para proteger a las personas que no están participando directamente en las hostilidades: civiles, heridos, prisioneros de guerra. El problema es que muchas de esas normas se escribieron antes de que existiera la inteligencia artificial, así que no estaban pensadas para regular sistemas autónomos.</p><p>Pinho de Oliveira y Bueno Montilla (2025) analizan específicamente ese desafío y concluyen que, aunque el DIH se aplica a los sistemas de armas autónomas, la responsabilidad en las decisiones siempre debe recaer en una persona humana y no en una máquina. Eso para nosotras es fundamental, porque cualquier tecnología que propongamos tiene que tener supervisión humana constante.</p><p>Porcelli (2021) también trabaja esta discusión y plantea que los Estados tienen la obligación de verificar que cualquier tecnología que adopten cumpla con los principios de distinción, proporcionalidad y precaución. Básicamente eso significa que no se puede atacar a civiles, que el daño no puede ser desproporcionado respecto al objetivo, y que siempre hay que buscar minimizar el daño a inocentes. Son principios que parecen lógicos, pero que se vuelven muy complicados cuando quien toma las decisiones es un algoritmo y no una persona.</p><p>Uno de los temas más delicados que encontramos fue el de los Sistemas de Armas Letales Autónomas, los LAWS, que son sistemas capaces de identificar y atacar objetivos sin intervención humana directa. Human Rights Watch (2025) publicó un informe donde advierte que estos robots asesinos amenazan los derechos humanos tanto en tiempos de guerra como de paz, porque son tecnologías que no pueden interpretar situaciones complejas como lo haría un ser humano ya que no tienen emociones, criterio moral ni conciencia sobre la vida de las personas.</p><p>Porcelli (2021) lo dice muy claro: no hay tecnología que haga que una máquina se comporte como un ser humano, quien puede determinar si una acción es lícita o ilícita y decidir no continuar con lo programado, teniendo como objetivo primordial la protección de las víctimas. Eso nos parece clave porque la tecnología es una herramienta, pero la responsabilidad ética siempre tiene que estar en manos humanas.</p><p>Es importante aclarar que nuestra propuesta no tiene nada que ver con sistemas de armas. Lo que nosotras planteamos es el uso de la IA y la robótica como herramientas de vigilancia, detección de riesgos y apoyo a la protección comunitaria, siempre con supervisión humana. La diferencia entre usar tecnología para proteger vidas y usarla para quitarlas es enorme, y esa línea para nosotras nunca puede cruzarse.</p></details>
+          <details><summary>Conexión con el contexto del Cauca</summary><p>El desarrollo sobre el conflicto armado en Colombia y su impacto en el Cauca se presenta en la sección territorial anterior, siguiendo el orden de esta investigación.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="research-section" id="metodologia">
+      <div class="section-inner">
+        <div class="section-head"><span class="section-kicker">07 · Proceso</span><h2>Metodología</h2><p>Enfoque mixto · Revisión documental · Análisis de contenido</p></div>
+        <div class="method-grid">
+          <article class="method-card wide"><h3>Enfoque mixto</h3><p>El enfoque que nosotras escogimos para realizar nuestra investigación fue el mixto, el cual combina el enfoque cuantitativo y el enfoque cualitativo. Desde la parte de lo cuantitativo, lo utilizamos para analizar los datos estadísticos sobre la violencia en el Cauca y el posible alcance que tiene los sistemas de vigilancia tecnológicos, como drones o robots. Desde lo cualitativo nosotras analizamos el impacto que tiene el conflicto armado en las comunidades y el potencial que tiene la inteligencia artificial y la robótica como una herramienta de protección.</p><p>Este enfoque está relacionado directamente con nuestra pregunta de investigación, por que responde a lo que nosotras necesitamos, ya que nos aporta los datos mediables que necesitamos como las estadísticas de violencia, los rasgos de vigilancia o el impacto de estas tecnologías. Igualmente, con nuestro objetivo ya que con este enfoque podemos analizar como la robótica y la IA pueden prevenir la violencia y mejorar la seguridad.</p></article>
+          <article class="method-card"><h3>Revisión documental</h3><p>Esta técnica nosotras la usamos para el objetivo de matemáticas, ya que nos ayuda a determinar el alcance de los sistemas de vigilancia que hay o que pueden llegar a ver en zonas vulnerables del Cauca, ya que esta consiste en la búsqueda, selección y análisis crítico de diferentes fuentes de información como lo son las noticia, los documentales o artículos que hemos leído, relacionados con la inteligencia artificial, la robótica y el conflicto armado, lo que nos permitió tener la información más clara, detallada y clasificada, con datos mucho más concretos.</p></article>
+          <article class="method-card"><h3>Análisis de contenido</h3><p>Esta técnica nos permite analizar el contenido de nuestras fuentes, para poder categorizarlas, sacar ideas claves y los datos relevantes que mostraríamos en el cortometraje y tener un mejores ideas y argumentos para nuestro proyecto.</p><p>Nosotras decidimos usar para nuestro objetivo de artística y tecnología, en el cual tenemos que crear un cortometraje tipo documental, que muestre y explique nuestra problemática de la violencia en el Cauca y la solución que nosotras mostramos con la inteligencia artificial y la robótica.</p></article>
+          <article class="method-card"><h3>Instrumentos</h3><p>Nosotras trabajamos con fichas bibliográficas y con una matriz de categorización que fuimos armando en Excel mientras avanzábamos en la investigación porque era la forma más práctica de no perdernos entre tanta información. En las fichas íbamos registrando cada fuente con su referencia completa un resumen claro y las citas que sentíamos más útiles para el proyecto y en la matriz organizamos todo según los temas que más nos importaban como la crisis humanitaria en el Cauca las aplicaciones de la IA y la robótica en seguridad y el marco jurídico y ético de estas tecnologías. Al final estos instrumentos nos sirvieron un montón porque sin ellos hubiera sido casi imposible mantener ordenado todo lo que encontramos.</p></article>
+          <article class="method-card"><h3>Población y muestra</h3><p>La población en que se centra nuestro proyecto son las comunidades del Cauca, específicamente las que han sido afectadas por el conflicto armado o las que están siendo afectas, y no en su lugar de residencia se encuentra una alta presencia de los grupos armados ilegales.</p><p>La muestra de nuestra investigación se divide en dos partes por un lado están las fuentes documentales que seleccionamos como artículos académicos informes de entidades como la Unidad para las Víctimas y Human Rights Watch noticias de medios como El Espectador y documentales sobre conflicto armado inteligencia artificial y robótica y por otro lado están los casos y zonas del Cauca que aparecen en esas mismas fuentes como el municipio de Suárez donde se reportaron ataques con drones y las áreas rurales con mayor confinamiento forzado. No trabajamos con una muestra poblacional directa porque nuestro enfoque es documental pero sí nos centramos en los casos más representativos de lo que está pasando en el Cauca hoy.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="research-section" id="resultados">
+      <div class="section-inner">
+        <div class="section-head"><span class="section-kicker">08 · Evidencia</span><h2>Resultados y análisis</h2><p>Resultados obtenidos exclusivamente de la hoja <strong>Documental</strong> y de los mapas de calor del archivo de categorización.</p></div>
+        <div class="stats">
+          <article class="stat-card"><strong>32</strong><span>registros de evidencia documental</span></article>
+          <article class="stat-card"><strong>28</strong><span>fuentes documentales identificadas</span></article>
+          <article class="stat-card"><strong>21</strong><span>registros provenientes de artículos</span></article>
+          <article class="stat-card"><strong>7</strong><span>registros en la categoría más frecuente: derechos humanos</span></article>
+        </div>
+        <div class="analysis-note"><strong>Lectura del análisis:</strong> La categoría con mayor frecuencia fue <em>Derechos humanos</em> (7 registros). En las subcategorías sobresalieron <em>Impactos humanitarios y desplazamiento</em> (6) y <em>Alertas tempranas y predicción de riesgos</em> (5). Por tipo de fuente se registraron 21 artículos, 4 informes, 4 páginas web y 3 videos documentales.</div>
+        <div class="visual-grid">
+          <figure class="visual-card"><img src="mapa-calor-fuentes.png" alt="Mapa de calor de fuentes bibliográficas por ubicación y categoría" loading="lazy" decoding="async"><figcaption>Mapa de calor 1. Frecuencia de las fuentes por ubicación analítica y categoría inicial.</figcaption></figure>
+          <figure class="visual-card"><img src="mapa-relaciones-tematicas.png" alt="Mapa de relaciones entre conceptos de la investigación" loading="lazy" decoding="async"><figcaption>Mapa de calor 2. Relaciones temáticas encontradas en el corpus documental.</figcaption></figure>
+        </div>
+        <h3>Matriz de análisis documental</h3>
+        <p>Abre cada registro para consultar su hallazgo, categoría y enlace de origen.</p>
+        <div class="evidence-list">
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-001</span>
+            <span>Colombia necesita tecnologia y digitalizacion para consolidar la paz</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Noticias Uno / Comision de la Verdad Colombia</span><span>2023</span><span>Video documental</span>
+            </div>
+            <p><strong>Categoría:</strong> Memoria del conflicto</p>
+            <p><strong>Subcategoría:</strong> Contexto y dinámicas del conflicto</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>La Inteligencia Artificial se encarga de aprender patrones y estructuras de los casos públicos para convertirlos en una explicación al alcance de cualquier persona</li></ul>
+            <a class="source-link" href="https://www.youtube.com/watch?v=5qvZW-R0MWs" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-002</span>
+            <span>Combates entre Ejército y disidencias de las Farc en Cauca generan alerta humanitaria</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>El Espectador</span><span>2026</span><span>Artículo</span>
+            </div>
+            <p><strong>Categoría:</strong> Grupos armados</p>
+            <p><strong>Subcategoría:</strong> Contexto y dinámicas del conflicto</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>Durante las últimas semanas, el departamento del Cauca ha sido foco de acciones por parte de estructuras al margen de la ley. El pasado 2 de junio, por ejemplo, las disidencias de las Farc perpetraron un ataque con drones cargados con explosivos en zona rural del municipio de Suárez. Siete civiles resultaron heridos en ese hecho: cinco menores de edad y dos adultos.</li><li>Ejército ordenó un despliegue de tropas del Batallón de Operaciones Terrestres Número 14 que, con el apoyo de la Fuerza Aérea Colombiana, han mantenido labores de vigilancia y combate con las estructuras armadas que delinquen en el suroccidente del país.</li></ul>
+            <a class="source-link" href="https://www.elespectador.com/judicial/combates-entre-ejercito-y-disidencias-de-las-farc-en-Cauca-generan-alerta-humanitaria/" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-003</span>
+            <span>En Cauca más de 9 mil personas han sufrido confinamiento</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>La FM</span><span>2026</span><span>Artículo</span>
+            </div>
+            <p><strong>Categoría:</strong> Derechos humanos</p>
+            <p><strong>Subcategoría:</strong> Impactos humanitarios y desplazamiento</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>El panorama de los derechos humanos en Colombia enfrenta un inicio de año crítico.</li><li>Durante el primer trimestre de 2026, el departamento del Cauca se consolidó como la región más golpeada por el fenómeno del confinamiento forzado, una crisis que ha dejado a miles de personas atrapadas en medio del conflicto armado interno.</li><li>Según la Defensoría del Pueblo, más de 9.300 personas en el Cauca vieron restringida su libertad de movimiento entre enero y marzo.</li></ul>
+            <a class="source-link" href="https://www.lafm.com.co/orden-publico/Cauca-region-del-pais-con-mas-casos-de-confinamiento-en-2026-398035" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-004</span>
+            <span>Cauca: un territorio atrapado entre la violencia y el abandono estatal</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Proclama del pacifico</span><span>2026</span><span>Artículo</span>
+            </div>
+            <p><strong>Categoría:</strong> Conflicto armado en el  Cauca</p>
+            <p><strong>Subcategoría:</strong> Contexto y dinámicas del conflicto</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>El departamento del Cauca, es hoy uno de los escenarios más complejos del conflicto armado y la crisis institucional del país. A pesar de la firma del Acuerdo de Paz entre el Estado colombiano y las FARC en 2016, la realidad demuestra que la paz en esta región continúa siendo una promesa lejana. Lejos de desaparecer, las dinámicas de violencia se transformaron y dieron paso al fortalecimiento de disidencias armadas, grupos ilegales y estructuras criminales que han encontrado en el Cauca un territorio estratégico para consolidar su poder.</li></ul>
+            <a class="source-link" href="https://proclamadelpacifico.com/Cauca-un-territorio-atrapado-entre-la-violencia-y-el-abandono-estatal/" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-005</span>
+            <span>Cauca, el departamento más afectado por confinamiento en el primer trimestre del año</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Defensoría del Pueblo</span><span>2026</span><span>Artículo</span>
+            </div>
+            <p><strong>Categoría:</strong> Grupos armados</p>
+            <p><strong>Subcategoría:</strong> Impactos humanitarios y desplazamiento</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>A nivel nacional hubo 26 eventos de confinamiento que impactaron a 39.807 personas entre el 1 de enero y el 31 de marzo. Esto evidencia la magnitud de la problemática.
+Le siguieron a Cauca, los departamentos del Chocó (7.765 personas confinadas), Caquetá (5.030), Antioquia (5.023) y Bolívar (3.882). La situación da cuenta de la concentración del confinamiento en regiones con alta presencia de actores armados ilegales y débil presencia institucional.</li></ul>
+            <a class="source-link" href="https://www.defensoria.gov.co/-/Cauca-el-departamento-mas-afectado-por-confinamiento" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-006</span>
+            <span>Cauca - ZONA DE GUERRA</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Primera Voz</span><span>2025</span><span>Video documental</span>
+            </div>
+            <p><strong>Categoría:</strong> Derechos humanos</p>
+            <p><strong>Subcategoría:</strong> Impactos humanitarios y desplazamiento</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>¿Cuál era el interés de ellos de mantener el control y tomar eso como punto estratégico? Primero, porque controlaban a la comunidad indígena que siembran y les sacaban dinero cuando la gente bajaba a vender sus cultivos... Y también, cuando secuestraban a la comunidad... también el reclutamiento de menores. Los reclutaban y luego los asesinaban; han existido varios casos donde los llevaban y los asesinaban</li><li>Cuando usted habla de secuestro de los jóvenes, ese reclutamiento de menores, sí, ese reclutamiento de menores que obviamente los reclutaban y luego los mataban, ¿han existido casos de esos acá donde los llevaban reclutados y los asesinaban? Sí, varios jóvenes. Estamos cansados a que hoy estemos viviendo todas estas violencias. ¿Cómo poder sacar a los grupos armados ilegales de esta región para que dejen de delinquir, secuestrar, reclutar, amenazar y todo lo que están haciendo? Si nosotros acabamos el tema de los cultivos ilícitos, se acaba el tema de los grupos armados que ellos alimentan</li></ul>
+            <a class="source-link" href="https://youtu.be/uwFz1PIZxcg?si=ND6_F9MrdwoPLR9S" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-007</span>
+            <span>Indigenous resistance to mining in post-conflict Colombia</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Diana Carolina Arbeláez-Ruiz</span><span>2022</span><span>Artículo</span>
+            </div>
+            <p><strong>Categoría:</strong> Derechos humanos</p>
+            <p><strong>Subcategoría:</strong> Territorio, economías ilícitas y derechos colectivos</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>El estudio analiza la resistencia de comunidades indígenas del norte del Cauca frente a la minería y muestra cómo el conflicto armado, la autonomía territorial y las economías locales condicionan la construcción de paz.</li></ul>
+            <a class="source-link" href="https://www.sciencedirect.com/science/article/pii/S2214790X21001155" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-008</span>
+            <span>‘Whatever we have, we owe it to coca’. Insights on armed conflict and the coca economy from Argelia, Colombia</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>José Antonio Gutiérrez D.</span><span>2021</span><span>Artículo</span>
+            </div>
+            <p><strong>Categoría:</strong> Conflicto armado en el  Cauca</p>
+            <p><strong>Subcategoría:</strong> Territorio, economías ilícitas y derechos colectivos</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>La investigación en Argelia, Cauca, evidencia que la economía de la coca está vinculada con los medios de vida locales, la presencia armada y las limitaciones institucionales; las políticas de paz deben considerar las realidades comunitarias.</li></ul>
+            <a class="source-link" href="https://www.sciencedirect.com/science/article/pii/S0955395920304060" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-009</span>
+            <span>Necropolitics, peacebuilding and racialized violence: The elimination of indigenous leaders in Colombia</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Krisna Ruette-Orihuela; Katherine V. Gough; Irene Vélez-Torres; Claudia P. Martínez Terreros</span><span>2023</span><span>Artículo</span>
+            </div>
+            <p><strong>Categoría:</strong> Derechos humanos</p>
+            <p><strong>Subcategoría:</strong> Derechos humanos y protección de líderes</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>El artículo estudia la violencia contra líderes indígenas después del Acuerdo de Paz y destaca al Cauca como territorio crítico, donde las disputas por autonomía y control territorial amenazan los derechos y la construcción de paz.</li></ul>
+            <a class="source-link" href="https://www.sciencedirect.com/science/article/pii/S0962629823001129" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-010</span>
+            <span>Building an inclusive peace is an uneven socio-spatial process: Colombia’s differential approach</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Sara Koopman</span><span>2020</span><span>Artículo</span>
+            </div>
+            <p><strong>Categoría:</strong> Construccion de la paz</p>
+            <p><strong>Subcategoría:</strong> Construcción de paz y participación comunitaria</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>A partir del norte del Cauca, el estudio demuestra que la paz inclusiva se construye de manera desigual y que los enfoques diferenciales requieren reconocer las experiencias, riesgos y capacidades propias de las comunidades.</li></ul>
+            <a class="source-link" href="https://www.sciencedirect.com/science/article/pii/S0962629820303152" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-011</span>
+            <span>The coca enclosure: Autonomy against accumulation in Colombia</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Anthony Dest</span><span>2021</span><span>Artículo</span>
+            </div>
+            <p><strong>Categoría:</strong> Grupos armados</p>
+            <p><strong>Subcategoría:</strong> Territorio, economías ilícitas y derechos colectivos</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>El artículo explica cómo la expansión de la coca y las dinámicas de acumulación en el suroccidente colombiano pueden debilitar la autonomía de comunidades negras e indígenas y profundizar disputas territoriales.</li></ul>
+            <a class="source-link" href="https://www.sciencedirect.com/science/article/pii/S0305750X2030293X" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-012</span>
+            <span>Between pacification and dialogue: Critical lessons from Colombia’s territorial peace</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Juan Mario Díaz; Henry Staples; Juan Miguel Kanai; Melanie Lombard</span><span>2021</span><span>Artículo</span>
+            </div>
+            <p><strong>Categoría:</strong> Construccion de la paz</p>
+            <p><strong>Subcategoría:</strong> Construcción de paz y participación comunitaria</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>La investigación advierte que la paz territorial puede oscilar entre la participación dialogada y prácticas de pacificación; recomienda procesos construidos con las comunidades y ajustados a las dinámicas locales.</li></ul>
+            <a class="source-link" href="https://www.sciencedirect.com/science/article/pii/S001671852030289X" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-013</span>
+            <span>Decolonising design in peacebuilding contexts</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>M. Carolina Escobar-Tello; Krisna Ruette-Orihuela; Katherine V. Gough; Javier A. Fayad-Sierra; Irene Vélez-Torres</span><span>2021</span><span>Artículo</span>
+            </div>
+            <p><strong>Categoría:</strong> Construccion de la paz</p>
+            <p><strong>Subcategoría:</strong> Construcción de paz y participación comunitaria</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>La experiencia desarrollada en el Alto Cauca muestra que el diseño participativo y el conocimiento local pueden emplearse para cocrear soluciones de paz, evitando imponer respuestas externas a las comunidades.</li></ul>
+            <a class="source-link" href="https://www.sciencedirect.com/science/article/pii/S0142694X21000120" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-014</span>
+            <span>“We fight to the end”: On the violence against social leaders and territorial defenders during the post-peace agreement period and its political ecological implications in the Putumayo, Colombia</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Juan Antonio Samper; Torsten Krause</span><span>2024</span><span>Artículo</span>
+            </div>
+            <p><strong>Categoría:</strong> Derechos humanos</p>
+            <p><strong>Subcategoría:</strong> Derechos humanos y protección de líderes</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>El estudio documenta la violencia contra líderes sociales y defensores territoriales en Putumayo después del Acuerdo de Paz; ofrece un caso colombiano comparable para comprender riesgos territoriales presentes en el Cauca.</li></ul>
+            <a class="source-link" href="https://www.sciencedirect.com/science/article/pii/S0305750X24000299" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-015</span>
+            <span>Outcome Case Study: Hala Systems – Sentry Syria</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>A Humanitarian Grand Challenge / Hala Systems</span><span>2023</span><span>Informe</span>
+            </div>
+            <p><strong>Categoría:</strong> La paz gracias a la IA</p>
+            <p><strong>Subcategoría:</strong> Alertas tempranas y predicción de riesgos</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>Sentry Syria integró sensores acústicos, reportes humanos, fuentes abiertas y algoritmos para emitir alertas automatizadas de ataques aéreos; proporcionó entre 7 y 10 minutos de anticipación y alcanzó a más de dos millones de personas.</li></ul>
+            <a class="source-link" href="https://humanitariangrandchallenge.org/wp-content/uploads/2023/12/Hala-Systems-Outcome-Case-Study.pdf" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-016</span>
+            <span>Innovation at UNHCR 2019: Is it possible to predict forced displacement? Project Jetson</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Alto Comisionado de las Naciones Unidas para los Refugiados (ACNUR/UNHCR)</span><span>2019</span><span>Informe</span>
+            </div>
+            <p><strong>Categoría:</strong> Dezplazamiento</p>
+            <p><strong>Subcategoría:</strong> Alertas tempranas y predicción de riesgos</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>Project Jetson empleó aprendizaje automático supervisado y variables de conflicto, clima y economía para anticipar desplazamientos en Somalia y apoyar una respuesta humanitaria más proactiva.</li></ul>
+            <a class="source-link" href="https://www.unhcr.org/innovation/wp-content/uploads/2019/07/Innovation-at-UNHCR-2019-Web.pdf" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-017</span>
+            <span>Forecasting Internally Displaced Population Migration Patterns in Syria and Yemen</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Benjamin Q. Huynh; Sanjay Basu</span><span>2020</span><span>Artículo</span>
+            </div>
+            <p><strong>Categoría:</strong> Dezplazamiento</p>
+            <p><strong>Subcategoría:</strong> Alertas tempranas y predicción de riesgos</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>Los modelos de aprendizaje automático predijeron flujos mensuales de población desplazada en Siria y Yemen con un mes de anticipación, utilizando precios, salarios, información geoespacial y noticias.</li></ul>
+            <a class="source-link" href="https://www.cambridge.org/core/journals/disaster-medicine-and-public-health-preparedness/article/forecasting-internally-displaced-population-migration-patterns-in-syria-and-yemen/12FA2227666A485252D58A5DA68EE837" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-018</span>
+            <span>WFP launches HungerMap LIVE</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Programa Mundial de Alimentos (WFP)</span><span>2020</span><span>Página web</span>
+            </div>
+            <p><strong>Categoría:</strong> Inteligencia artificial</p>
+            <p><strong>Subcategoría:</strong> Alertas tempranas y predicción de riesgos</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>HungerMap LIVE utiliza inteligencia artificial, aprendizaje automático y datos sobre conflicto, clima, mercados y población para monitorear y predecir inseguridad alimentaria en más de 90 países.</li></ul>
+            <a class="source-link" href="https://www.wfp.org/stories/wfp-launches-hungermap-live" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-019</span>
+            <span>In Ukraine, machine-learning algorithms and big data scans used to identify war-damaged infrastructure</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Programa de las Naciones Unidas para el Desarrollo (PNUD/UNDP)</span><span>2022</span><span>Página web</span>
+            </div>
+            <p><strong>Categoría:</strong> Inteligencia artificial</p>
+            <p><strong>Subcategoría:</strong> Monitoreo de daños y recuperación territorial</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>El PNUD aplicó aprendizaje automático y procesamiento del lenguaje natural para analizar 8.727 reportes y clasificar daños de guerra en nueve sectores, apoyando decisiones de recuperación y reconstrucción.</li></ul>
+            <a class="source-link" href="https://www.undp.org/ukraine/blog/ukraine-machine-learning-algorithms-and-big-data-scans-used-identify-war-damaged-infrastructure" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-020</span>
+            <span>Monitoring war destruction from space using machine learning</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Hannes Mueller; Andre Gröger; Jonathan Hersh; Andrea Matranga; Joan Serrat</span><span>2021</span><span>Artículo</span>
+            </div>
+            <p><strong>Categoría:</strong> Seguridad y vigilancia</p>
+            <p><strong>Subcategoría:</strong> Monitoreo de daños y recuperación territorial</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>La investigación utilizó aprendizaje profundo e imágenes satelitales para detectar destrucción de edificaciones en Siria, ampliando la cobertura y frecuencia del monitoreo en lugares de difícil acceso.</li></ul>
+            <a class="source-link" href="https://www.pnas.org/doi/10.1073/pnas.2025400118" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-021</span>
+            <span>An open-source tool for mapping war destruction at scale in Ukraine using Sentinel-1 time series</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Olivier Dietrich; Torben Peters; Vivien Sainte Fare Garnot; Valerie Sticher; Thao Ton-That Whelan; Konrad Schindler; Jan Dirk Wegner</span><span>2025</span><span>Artículo</span>
+            </div>
+            <p><strong>Categoría:</strong> Sistemas autonomos</p>
+            <p><strong>Subcategoría:</strong> Monitoreo de daños y recuperación territorial</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>El estudio desarrolló una herramienta abierta que combina imágenes de radar Sentinel-1 y aprendizaje automático para estimar daños por edificio y examinar rápidamente grandes territorios afectados por la guerra.</li></ul>
+            <a class="source-link" href="https://www.nature.com/articles/s43247-025-02183-7" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-022</span>
+            <span>In Ukraine, tackling mine action from all sides to make land safe again</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Programa de las Naciones Unidas para el Desarrollo (PNUD/UNDP)</span><span>2024</span><span>Página web</span>
+            </div>
+            <p><strong>Categoría:</strong> Robótica</p>
+            <p><strong>Subcategoría:</strong> Desminado y robótica humanitaria</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>El PNUD probó sistemas aéreos no tripulados, sensores electroópticos, inteligencia artificial y aprendizaje automático; las pruebas alcanzaron hasta 78 % de detección de objetos superficiales y 70 % de objetos metálicos o enterrados.</li></ul>
+            <a class="source-link" href="https://www.undp.org/european-union/stories/ukraine-tackling-mine-action-all-sides-make-land-safe-again" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-023</span>
+            <span>The Use of Remote Sensing and Artificial Intelligence in the Mine Action Sector</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Comité Internacional de la Cruz Roja (CICR) y Geneva International Centre for Humanitarian Demining (GICHD)</span><span>2021</span><span>Informe</span>
+            </div>
+            <p><strong>Categoría:</strong> Robótica</p>
+            <p><strong>Subcategoría:</strong> Desminado y robótica humanitaria</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>El informe concluye que la teledetección y la IA pueden mejorar la identificación de zonas contaminadas, la priorización de tareas y la asignación segura y eficiente de recursos para el desminado humanitario.</li></ul>
+            <a class="source-link" href="https://www.gichd.org/publications-resources/publications/webinar-report-the-use-of-remote-sensing-and-artificial-intelligence-in-the-mine-action-sector/" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-024</span>
+            <span>Antiexplosivos</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Policía Nacional de Colombia – DIJIN</span><span>s. f.</span><span>Página web</span>
+            </div>
+            <p><strong>Categoría:</strong> Robótica</p>
+            <p><strong>Subcategoría:</strong> Desminado y robótica humanitaria</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>La Unidad Antiexplosivos dispone del robot Allen Vanguard Digital MKIII y laboratorios de robótica e innovación para apoyar a técnicos en la inspección y manipulación de amenazas explosivas. La fuente describe robótica operada por especialistas, no IA autónoma.</li></ul>
+            <a class="source-link" href="https://www.policia.gov.co/jefatura-nacional-del-servicio-de-policia/dijin/antiexplosivos" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-025</span>
+            <span>ViEWS: A political violence early-warning system</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Håvard Hegre et al.</span><span>2019</span><span>Artículo</span>
+            </div>
+            <p><strong>Categoría:</strong> Inteligencia artificial</p>
+            <p><strong>Subcategoría:</strong> Alertas tempranas y predicción de riesgos</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>ViEWS genera pronósticos mensuales nacionales y subnacionales de distintas formas de violencia organizada, con horizontes de hasta 36 meses, para apoyar la alerta y la acción anticipatoria.</li></ul>
+            <a class="source-link" href="https://doi.org/10.1177/0022343319823860" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-026</span>
+            <span>DPPA Multi-Year Appeal Annual Report 2021: Supporting peacemaking with artificial intelligence</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Departamento de Asuntos Políticos y de Consolidación de la Paz de las Naciones Unidas (UN DPPA)</span><span>2021</span><span>Informe</span>
+            </div>
+            <p><strong>Categoría:</strong> La paz gracias a la IA</p>
+            <p><strong>Subcategoría:</strong> Construcción de paz y participación comunitaria</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>Naciones Unidas empleó diálogos digitales asistidos por IA en procesos de paz de Libia, Iraq y otros contextos para analizar grandes volúmenes de opiniones y ampliar la participación ciudadana.</li></ul>
+            <a class="source-link" href="https://dppa.un.org/sites/default/files/dppa_multi-year_appeal_annual_report_2021.pdf" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-027</span>
+            <span>Harnessing the potential of artificial intelligence for humanitarian action: Opportunities and risks</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Ana Beduschi</span><span>2022</span><span>Artículo</span>
+            </div>
+            <p><strong>Categoría:</strong> Marco juridico de la IA</p>
+            <p><strong>Subcategoría:</strong> Ética y gobernanza de la IA humanitaria</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>El artículo examina aplicaciones de la IA para anticipar crisis, analizar datos y orientar operaciones humanitarias, y advierte riesgos relacionados con sesgos, privacidad, seguridad y responsabilidad.</li></ul>
+            <a class="source-link" href="https://international-review.icrc.org/articles/harnessing-the-potential-of-artificial-intelligence-for-humanitarian-action-919" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        
+        <details class="evidence-item">
+          <summary>
+            <span class="evidence-id">DOC-028</span>
+            <span>AI for humanitarian action: Human rights and ethics</span>
+          </summary>
+          <div class="evidence-body">
+            <div class="evidence-meta">
+              <span>Michael Pizzi; Mila Romanoff; Tim Engelhardt</span><span>2021</span><span>Artículo</span>
+            </div>
+            <p><strong>Categoría:</strong> Marco juridico de la IA</p>
+            <p><strong>Subcategoría:</strong> Ética y gobernanza de la IA humanitaria</p>
+            <h4>Hallazgo documental</h4>
+            <ul><li>La investigación propone que la IA humanitaria debe ampliar las capacidades de las personas sin afectar sus derechos; destaca la necesidad de transparencia, explicabilidad, protección de datos y supervisión humana.</li></ul>
+            <a class="source-link" href="https://international-review.icrc.org/articles/ai-humanitarian-action-human-rights-ethics-913" target="_blank" rel="noopener noreferrer">Consultar fuente <span aria-hidden="true">↗</span></a>
+          </div>
+        </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="research-section" id="conclusiones">
+      <div class="section-inner"><article class="conclusion-panel"><span class="section-kicker" style="color:#b9d1d9">09 · Cierre</span><h2>Conclusiones</h2><p>En resumen, pues el marco teórico de este proyecto parte del contexto real del conflicto en el Cauca, pasa por entender qué puede hacer la IA y la robótica en términos prácticos, y llega a los límites éticos y jurídicos que deben guiar cualquier propuesta tecnológica en estos contextos. La verdad es que no existe una solución mágica, y la tecnología sola no va a resolver algo tan complejo como el conflicto armado. Pero sí puede ser una herramienta poderosa de apoyo, prevención y protección, si se usa de forma responsable, con supervisión humana y respetando siempre los derechos de las comunidades.</p><p>Eso es lo que nosotras queremos explorar con este proyecto STEAM: no solo si la tecnología puede ayudar, sino cómo puede hacerlo de una forma que sea realmente útil, justa y humana para las comunidades del Cauca.</p></article></div>
+    </section>
+
+    <section class="research-section" id="cortometraje">
+      <div class="section-inner"><article class="film-frame"><div class="film-icon" aria-hidden="true"></div><div><span class="section-kicker" style="color:#cbdce1">10 · Prototipo</span><h2>Cortometraje</h2><p>Nuestro prototipo consiste en un cortometraje, tipo documental y actuado grabado en una finca. Donde se muestren los resultados que obtuvimos durante la investigación de forma clara, resolviendo nuestra problemática.</p><p>La idea que tenemos para el cortometraje es que, de forma dramática, mostremos como se suele vivir en las comunidades rurales del Cauca y como se presenta tanto el conflicto armado en estas mismas, la idea es mostrarlo de una forma muy real pero que siga siento actuado. También consiste que a lo largo del video se integren los robots como drones y la inteligencia artificial, como una posible solución al problema si tiene un buen uso de la misma, mejorando la seguridad, la vigilancia y con la posibilidad de detectar posibles amenazas.</p><p>Nosotras los anexos se los compartimos en otro archivo, que lo encuentran en la misma carpeta que encontraron el archivo de Word de nuestro trabajo, decidimos hacerlo así porque era mucho más fácil ver la información de las fichas bibliográficas.</p></div></article></div>
+    </section>
+
+    <section class="research-section" id="referencias">
+      <div class="section-inner">
+        <div class="section-head"><span class="section-kicker">11 · Trazabilidad</span><h2>Referencias</h2><p>Bibliografía del Word, enlaces de la matriz documental y enlaces de las fichas bibliográficas. De este último Excel se incorporaron solamente los enlaces.</p></div>
+        <details class="references-group" open><summary>Bibliografía incluida en el documento Word</summary><ol><li><a href="https://doi.org/10.32870/dgedj.v10i29.809" target="_blank" rel="noopener noreferrer">Fuente (APA): Pinho de Oliveira, M. F., &amp; Bueno Montilla, A. (2025). Aportes teóricos sobre el uso de la Inteligencia Artificial en los sistemas de armas autónomas desde la perspectiva del Derecho Internacional Humanitario. Derecho global. Estudios sobre derecho y justicia, 10(29), 479-511. https://doi.org/10.32870/dgedj.v10i29.809</a></li><li><a href="https://bdigital.uexternado.edu.co/handle/001/14914" target="_blank" rel="noopener noreferrer">Fuente (APA): Cano Cuevas, D.  (2023).  La inteligencia artificial en el posacuerdo colombiano : el caso de los drones de combate para operaciones sostenidas contra grupos armados organizados.    Universidad Externado de Colombia. Disponible en: https://bdigital.uexternado.edu.co/handle/001/14914</a></li><li><a href="https://dialnet.unirioja.es/descarga/articulo/9666375.pdf" target="_blank" rel="noopener noreferrer">de Santayana, J. M. P., &amp; de Olea, G. (2024). La inteligencia artificial y la guerra de Ucrania. Cuadernos de estrategia, (226), 87-104. https://dialnet.unirioja.es/descarga/articulo/9666375.pdf</a></li><li><a href="https://doi.org/10.3989/arbor.2021.800002" target="_blank" rel="noopener noreferrer">Porcelli, A. M. (2021). La inteligencia artificial aplicable a los conflictos armados: límites jurídicos y éticos. Arbor, 197(800), a600. https://doi.org/10.3989/arbor.2021.800002</a></li><li><a href="https://doi.org/10.21830/19006586.1151" target="_blank" rel="noopener noreferrer">Matiz Rojas, A. H., &amp; Fernández Camargo, J. A. (2023). Del uso de la inteligencia artificial como medio y método en los conflictos armados. Revista Científica General José María Córdova, 21(42), 525–549. https://doi.org/10.21830/19006586.1151</a></li><li><a href="https://www.hrw.org/es/news/2025/04/28/los-robots-asesinos-amenazan-los-derechos-humanos-en-tiempos-de-guerra-y-de-paz" target="_blank" rel="noopener noreferrer">Human Rights Watch. (2025, abril 28). Los “robots asesinos” amenazan los derechos humanos en tiempos de guerra y de paz. Human Rights Watch. https://www.hrw.org/es/news/2025/04/28/los-robots-asesinos-amenazan-los-derechos-humanos-en-tiempos-de-guerra-y-de-paz</a></li><li><a href="https://www.hrw.org/es/news/2025/04/28/los-robots-asesinos-amenazan-los-derechos-humanos-en-tiempos-de-guerra-y-de-paz" target="_blank" rel="noopener noreferrer">Fuente (APA) Human Rights Watch. (2025, abril 28). Los “robots asesinos” amenazan los derechos humanos en tiempos de guerra y de paz. Human Rights Watch. https://www.hrw.org/es/news/2025/04/28/los-robots-asesinos-amenazan-los-derechos-humanos-en-tiempos-de-guerra-y-de-paz</a></li><li><a href="https://doi.org/10.12804/revistas.urosario.edu.co/sociojuridicos/a.9269" target="_blank" rel="noopener noreferrer">Fuente (APA):Porcelli, A. M. (2021). La inteligencia artificial aplicada a la robótica en los conflictos armados. Debates sobre los sistemas de armas letales autónomas y la (in)suficiencia de los estándares del derecho internacional humanitario. Estudios Socio-Jurídicos, 23(1), 483–530. https://doi.org/10.12804/revistas.urosario.edu.co/sociojuridicos/a.9269</a></li><li><a href="https://datospaz.unidadvictimas.gov.co/archivos/datosPaz/infografias/AlDiaconelObservatorio_Cauca_ABRIL2024.pdf" target="_blank" rel="noopener noreferrer">Fuente (APA) Unidad para las Víctimas. (2024). Al Día con el Observatorio: La crisis humanitaria del Cauca (Infografía, abril 2024). Unidad para las Víctimas. https://datospaz.unidadvictimas.gov.co/archivos/datosPaz/infografias/AlDiaconelObservatorio_Cauca_ABRIL2024.pdf.</a></li><li><a href="https://www.revistaciendiascinep.com/home/violencia-en-el-cauca-y-territorialidades-sociales/" target="_blank" rel="noopener noreferrer">Fuente (APA) CINEP/Programa por la Paz. (2024). Violencia en el Cauca y territorialidades sociales. Revista Cien Días. https://www.revistaciendiascinep.com/home/violencia-en-el-cauca-y-territorialidades-sociales/</a></li><li><a href="https://www.elespectador.com/judicial/mas-de-600-ataques-en-cauca-y-valle-desde-2022-asi-se-mueve-el-conflicto-en-el-suroccidente/" target="_blank" rel="noopener noreferrer">Fuente (APA) Ideas para la Paz. (2026). Más de 600 ataques en Cauca y Valle desde 2022: así se mueve el conflicto en el suroccidente. https://www.elespectador.com/judicial/mas-de-600-ataques-en-cauca-y-valle-desde-2022-asi-se-mueve-el-conflicto-en-el-suroccidente/</a></li><li><a href="https://www.scielo.org.mx/scielo.php?pid=S2448-51362020000300049&amp;script=sci_arttext" target="_blank" rel="noopener noreferrer">Porcelli, A. M. (2020). La inteligencia artificial y la robótica: sus dilemas sociales, éticos y jurídicos. https://www.scielo.org.mx/scielo.php?pid=S2448-51362020000300049&amp;script=sci_arttext</a></li><li><a href="https://www.scielo.br/j/ep/a/WfSd7cqKTHYGbSz97kN5M4B/?format=html&amp;lang=es" target="_blank" rel="noopener noreferrer">Álvarez Álvarez, C., del Arco Bravo, I., Flores-Alarcia, Ó., &amp; Ramos-Pla, A. (2018). Inteligencia artificial: retos, desafíos y oportunidades. https://www.scielo.br/j/ep/a/WfSd7cqKTHYGbSz97kN5M4B/?format=html&amp;lang=es</a></li><li><a href="https://revista.provitima.org/ojs/index.php/rpv/article/view/39" target="_blank" rel="noopener noreferrer">ProVíctima. (2023). Inteligencia artificial, vigilancia predictiva y prevención de la violencia de género. https://revista.provitima.org/ojs/index.php/rpv/article/view/39</a></li><li><a href="https://arbor.revistas.csic.es/index.php/arbor/article/view/2417" target="_blank" rel="noopener noreferrer">Presno, M., &amp; Vigevano, M. R. (2021). Inteligencia artificial aplicable a los conflictos armados: límites jurídicos y éticos .https://arbor.revistas.csic.es/index.php/arbor/article/view/2417</a></li><li><a href="https://sapiensjournal.ec/index.php/sai/article/view/217" target="_blank" rel="noopener noreferrer">Chiliquinga Amaya, J. A., &amp; Arcentales Macías, A. M. (2024). La influencia de la inteligencia artificial en la sociedad actual y en el futuro de las próximas generaciones. https://sapiensjournal.ec/index.php/sai/article/view/217</a></li></ol></details>
+        <details class="references-group"><summary>Enlaces de las fuentes del análisis documental (28)</summary><ol><li><a href="https://www.youtube.com/watch?v=5qvZW-R0MWs" target="_blank" rel="noopener noreferrer">Colombia necesita tecnologia y digitalizacion para consolidar la paz — Noticias Uno / Comision de la Verdad Colombia (2023)</a></li><li><a href="https://www.elespectador.com/judicial/combates-entre-ejercito-y-disidencias-de-las-farc-en-Cauca-generan-alerta-humanitaria/" target="_blank" rel="noopener noreferrer">Combates entre Ejército y disidencias de las Farc en Cauca generan alerta humanitaria — El Espectador (2026)</a></li><li><a href="https://www.lafm.com.co/orden-publico/Cauca-region-del-pais-con-mas-casos-de-confinamiento-en-2026-398035" target="_blank" rel="noopener noreferrer">En Cauca más de 9 mil personas han sufrido confinamiento — La FM (2026)</a></li><li><a href="https://proclamadelpacifico.com/Cauca-un-territorio-atrapado-entre-la-violencia-y-el-abandono-estatal/" target="_blank" rel="noopener noreferrer">Cauca: un territorio atrapado entre la violencia y el abandono estatal — Proclama del pacifico (2026)</a></li><li><a href="https://www.defensoria.gov.co/-/Cauca-el-departamento-mas-afectado-por-confinamiento" target="_blank" rel="noopener noreferrer">Cauca, el departamento más afectado por confinamiento en el primer trimestre del año — Defensoría del Pueblo (2026)</a></li><li><a href="https://youtu.be/uwFz1PIZxcg?si=ND6_F9MrdwoPLR9S" target="_blank" rel="noopener noreferrer">Cauca - ZONA DE GUERRA — Primera Voz (2025)</a></li><li><a href="https://www.sciencedirect.com/science/article/pii/S2214790X21001155" target="_blank" rel="noopener noreferrer">Indigenous resistance to mining in post-conflict Colombia — Diana Carolina Arbeláez-Ruiz (2022)</a></li><li><a href="https://www.sciencedirect.com/science/article/pii/S0955395920304060" target="_blank" rel="noopener noreferrer">‘Whatever we have, we owe it to coca’. Insights on armed conflict and the coca economy from Argelia, Colombia — José Antonio Gutiérrez D. (2021)</a></li><li><a href="https://www.sciencedirect.com/science/article/pii/S0962629823001129" target="_blank" rel="noopener noreferrer">Necropolitics, peacebuilding and racialized violence: The elimination of indigenous leaders in Colombia — Krisna Ruette-Orihuela; Katherine V. Gough; Irene Vélez-Torres; Claudia P. Martínez Terreros (2023)</a></li><li><a href="https://www.sciencedirect.com/science/article/pii/S0962629820303152" target="_blank" rel="noopener noreferrer">Building an inclusive peace is an uneven socio-spatial process: Colombia’s differential approach — Sara Koopman (2020)</a></li><li><a href="https://www.sciencedirect.com/science/article/pii/S0305750X2030293X" target="_blank" rel="noopener noreferrer">The coca enclosure: Autonomy against accumulation in Colombia — Anthony Dest (2021)</a></li><li><a href="https://www.sciencedirect.com/science/article/pii/S001671852030289X" target="_blank" rel="noopener noreferrer">Between pacification and dialogue: Critical lessons from Colombia’s territorial peace — Juan Mario Díaz; Henry Staples; Juan Miguel Kanai; Melanie Lombard (2021)</a></li><li><a href="https://www.sciencedirect.com/science/article/pii/S0142694X21000120" target="_blank" rel="noopener noreferrer">Decolonising design in peacebuilding contexts — M. Carolina Escobar-Tello; Krisna Ruette-Orihuela; Katherine V. Gough; Javier A. Fayad-Sierra; Irene Vélez-Torres (2021)</a></li><li><a href="https://www.sciencedirect.com/science/article/pii/S0305750X24000299" target="_blank" rel="noopener noreferrer">“We fight to the end”: On the violence against social leaders and territorial defenders during the post-peace agreement period and its political ecological implications in the Putumayo, Colombia — Juan Antonio Samper; Torsten Krause (2024)</a></li><li><a href="https://humanitariangrandchallenge.org/wp-content/uploads/2023/12/Hala-Systems-Outcome-Case-Study.pdf" target="_blank" rel="noopener noreferrer">Outcome Case Study: Hala Systems – Sentry Syria — A Humanitarian Grand Challenge / Hala Systems (2023)</a></li><li><a href="https://www.unhcr.org/innovation/wp-content/uploads/2019/07/Innovation-at-UNHCR-2019-Web.pdf" target="_blank" rel="noopener noreferrer">Innovation at UNHCR 2019: Is it possible to predict forced displacement? Project Jetson — Alto Comisionado de las Naciones Unidas para los Refugiados (ACNUR/UNHCR) (2019)</a></li><li><a href="https://www.cambridge.org/core/journals/disaster-medicine-and-public-health-preparedness/article/forecasting-internally-displaced-population-migration-patterns-in-syria-and-yemen/12FA2227666A485252D58A5DA68EE837" target="_blank" rel="noopener noreferrer">Forecasting Internally Displaced Population Migration Patterns in Syria and Yemen — Benjamin Q. Huynh; Sanjay Basu (2020)</a></li><li><a href="https://www.wfp.org/stories/wfp-launches-hungermap-live" target="_blank" rel="noopener noreferrer">WFP launches HungerMap LIVE — Programa Mundial de Alimentos (WFP) (2020)</a></li><li><a href="https://www.undp.org/ukraine/blog/ukraine-machine-learning-algorithms-and-big-data-scans-used-identify-war-damaged-infrastructure" target="_blank" rel="noopener noreferrer">In Ukraine, machine-learning algorithms and big data scans used to identify war-damaged infrastructure — Programa de las Naciones Unidas para el Desarrollo (PNUD/UNDP) (2022)</a></li><li><a href="https://www.pnas.org/doi/10.1073/pnas.2025400118" target="_blank" rel="noopener noreferrer">Monitoring war destruction from space using machine learning — Hannes Mueller; Andre Gröger; Jonathan Hersh; Andrea Matranga; Joan Serrat (2021)</a></li><li><a href="https://www.nature.com/articles/s43247-025-02183-7" target="_blank" rel="noopener noreferrer">An open-source tool for mapping war destruction at scale in Ukraine using Sentinel-1 time series — Olivier Dietrich; Torben Peters; Vivien Sainte Fare Garnot; Valerie Sticher; Thao Ton-That Whelan; Konrad Schindler; Jan Dirk Wegner (2025)</a></li><li><a href="https://www.undp.org/european-union/stories/ukraine-tackling-mine-action-all-sides-make-land-safe-again" target="_blank" rel="noopener noreferrer">In Ukraine, tackling mine action from all sides to make land safe again — Programa de las Naciones Unidas para el Desarrollo (PNUD/UNDP) (2024)</a></li><li><a href="https://www.gichd.org/publications-resources/publications/webinar-report-the-use-of-remote-sensing-and-artificial-intelligence-in-the-mine-action-sector/" target="_blank" rel="noopener noreferrer">The Use of Remote Sensing and Artificial Intelligence in the Mine Action Sector — Comité Internacional de la Cruz Roja (CICR) y Geneva International Centre for Humanitarian Demining (GICHD) (2021)</a></li><li><a href="https://www.policia.gov.co/jefatura-nacional-del-servicio-de-policia/dijin/antiexplosivos" target="_blank" rel="noopener noreferrer">Antiexplosivos — Policía Nacional de Colombia – DIJIN (s. f.)</a></li><li><a href="https://doi.org/10.1177/0022343319823860" target="_blank" rel="noopener noreferrer">ViEWS: A political violence early-warning system — Håvard Hegre et al. (2019)</a></li><li><a href="https://dppa.un.org/sites/default/files/dppa_multi-year_appeal_annual_report_2021.pdf" target="_blank" rel="noopener noreferrer">DPPA Multi-Year Appeal Annual Report 2021: Supporting peacemaking with artificial intelligence — Departamento de Asuntos Políticos y de Consolidación de la Paz de las Naciones Unidas (UN DPPA) (2021)</a></li><li><a href="https://international-review.icrc.org/articles/harnessing-the-potential-of-artificial-intelligence-for-humanitarian-action-919" target="_blank" rel="noopener noreferrer">Harnessing the potential of artificial intelligence for humanitarian action: Opportunities and risks — Ana Beduschi (2022)</a></li><li><a href="https://international-review.icrc.org/articles/ai-humanitarian-action-human-rights-ethics-913" target="_blank" rel="noopener noreferrer">AI for humanitarian action: Human rights and ethics — Michael Pizzi; Mila Romanoff; Tim Engelhardt (2021)</a></li></ol></details>
+        <details class="references-group"><summary>Enlaces tomados de las fichas bibliográficas (7)</summary><ol><li><a href="https://doi.org/10.3989/arbor.2021.800002" target="_blank" rel="noopener noreferrer">doi.org — enlace de ficha bibliográfica 1</a></li><li><a href="https://doi.org/10.21830/19006586.1151" target="_blank" rel="noopener noreferrer">doi.org — enlace de ficha bibliográfica 2</a></li><li><a href="https://www.hrw.org/es/news/2025/04/28/los-robots-asesinos-amenazan-los-derechos-humanos-en-tiempos-de-guerra-y-de-paz" target="_blank" rel="noopener noreferrer">hrw.org — enlace de ficha bibliográfica 3</a></li><li><a href="https://doi.org/10.32870/dgedj.v10i29.809" target="_blank" rel="noopener noreferrer">doi.org — enlace de ficha bibliográfica 4</a></li><li><a href="https://bdigital.uexternado.edu.co/handle/001/14914" target="_blank" rel="noopener noreferrer">bdigital.uexternado.edu.co — enlace de ficha bibliográfica 5</a></li><li><a href="https://datospaz.unidadvictimas.gov.co/archivos/datosPaz/infografias/AlDiaconelObservatorio_Cauca_ABRIL2024.pdf" target="_blank" rel="noopener noreferrer">datospaz.unidadvictimas.gov.co — enlace de ficha bibliográfica 6</a></li><li><a href="https://www.revistaciendiascinep.com/home/violencia-en-el-cauca-y-territorialidades-sociales/" target="_blank" rel="noopener noreferrer">revistaciendiascinep.com — enlace de ficha bibliográfica 7</a></li></ol></details>
+      </div>
+    </section>
+
+    <section class="research-section" id="aprendizajes">
+      <div class="section-inner">
+        <div class="section-head"><span class="section-kicker">12 · Integración</span><h2>Aprendizajes generados desde las áreas STEAM+T en el proyecto</h2><p>Aprendizajes que, durante el desarrollo de la investigación, permitieron comprender el problema, analizar la evidencia y comunicar una propuesta responsable.</p></div>
+        <div class="learning-grid"><article class="learning-card"><span class="learning-number">01</span><h3>Área macro</h3><p>Aprendimos a describir el conflicto armado en el Cauca como un problema territorial y humano, no solo como una sucesión de hechos violentos. Comprendimos conceptos como desplazamiento forzado, confinamiento, derechos humanos, autonomía territorial, participación comunitaria y construcción de paz.</p></article><article class="learning-card"><span class="learning-number">02</span><h3>Tecnología</h3><p>Integramos el área mediante el desarrollo de esta página web y la planeación del cortometraje documental. Aprendimos a organizar información digital, crear una navegación clara y presentar enlaces, evidencias y resultados de manera accesible y responsable.</p></article><article class="learning-card"><span class="learning-number">03</span><h3>Ingeniería</h3><p>Seguimos un proceso de análisis del problema, clasificación de datos, programación, diseño y edición para plantear una solución. Comprendimos que los drones, sensores y sistemas de IA deben funcionar como apoyo preventivo y conservar supervisión humana.</p></article><article class="learning-card"><span class="learning-number">04</span><h3>Artes</h3><p>Aportamos desde la construcción narrativa y visual del cortometraje. Aprendimos a representar un contexto rural de forma sensible, a usar recursos dramáticos sin perder el carácter documental y a comunicar la propuesta tecnológica con claridad.</p></article><article class="learning-card"><span class="learning-number">05</span><h3>Matemáticas</h3><p>Las matemáticas permitieron contar frecuencias, comparar categorías, construir el mapa de calor y representar la información mediante gráficas. También aplicamos razones trigonométricas para estudiar el alcance, la altura y el ángulo de cobertura de sistemas de vigilancia.</p></article><article class="learning-card"><span class="learning-number">06</span><h3>Lenguaje</h3><p>Fortalecimos la búsqueda de información en fuentes confiables, el uso de referencias y citas, la definición de conceptos y el análisis de contenido. Esto ayudó a redactar las fases de la investigación de forma clara, coherente, argumentativa y comprensible.</p></article></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><strong>STEAM+T 2026 · Tecnología para la Paz</strong><br>Cibercolegio UCN · Cauca, Colombia</footer>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById("starTrail");
+      const context = canvas.getContext("2d", { alpha: true });
+      const finePointer = matchMedia("(pointer:fine)").matches;
+      if (!context || !finePointer) return;
+      const reduced = matchMedia("(prefers-reduced-motion:reduce)").matches;
+      const colors = ["rgba(101,146,159,.30)","rgba(133,165,140,.28)","rgba(171,151,190,.25)","rgba(195,168,105,.28)"];
+      const particles = [];
+      let previous = null;
+      let queued = null;
+      let moveFrame = 0;
+      let animationFrame = 0;
+      function resize() {
+        canvas.width = innerWidth;
+        canvas.height = innerHeight;
+      }
+      function emit(point) {
+        if (!previous) { previous = point; return; }
+        const distance = Math.hypot(point.x - previous.x, point.y - previous.y);
+        if (distance < 18) return;
+        particles.push({
+          x: previous.x + (point.x - previous.x) * .45,
+          y: previous.y + (point.y - previous.y) * .45,
+          size: 2.2 + Math.random() * 2.1,
+          life: reduced ? .45 : .62,
+          fade: reduced ? .08 : .045,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          drift: reduced ? 0 : (Math.random() - .5) * .18
+        });
+        if (particles.length > 14) particles.shift();
+        previous = point;
+        if (!animationFrame) animationFrame = requestAnimationFrame(draw);
+      }
+      function draw() {
+        context.clearRect(0,0,canvas.width,canvas.height);
+        for (let index = particles.length - 1; index >= 0; index--) {
+          const star = particles[index];
+          star.y += star.drift;
+          star.life -= star.fade;
+          if (star.life <= 0) { particles.splice(index,1); continue; }
+          context.globalAlpha = star.life;
+          context.fillStyle = star.color;
+          context.beginPath();
+          context.moveTo(star.x, star.y - star.size);
+          context.lineTo(star.x + star.size * .28, star.y - star.size * .28);
+          context.lineTo(star.x + star.size, star.y);
+          context.lineTo(star.x + star.size * .28, star.y + star.size * .28);
+          context.lineTo(star.x, star.y + star.size);
+          context.lineTo(star.x - star.size * .28, star.y + star.size * .28);
+          context.lineTo(star.x - star.size, star.y);
+          context.lineTo(star.x - star.size * .28, star.y - star.size * .28);
+          context.closePath();
+          context.fill();
+        }
+        context.globalAlpha = 1;
+        if (particles.length) animationFrame = requestAnimationFrame(draw);
+        else animationFrame = 0;
+      }
+      addEventListener("resize", resize, { passive:true });
+      addEventListener("pointermove", event => {
+        queued = {x:event.clientX,y:event.clientY};
+        if (!moveFrame) moveFrame = requestAnimationFrame(() => { emit(queued); moveFrame = 0; });
+      }, { passive:true });
+      addEventListener("blur", () => { previous = null; });
+      resize();
+    })();
+  </script>
+</body>
+</html>
