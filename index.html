@@ -3288,13 +3288,96 @@ nav.menu-open .nav-toggle span:nth-child(3){transform:translateY(-7px) rotate(-4
 }
 
 #
+/* =====================================================
+   PROGRESO DE LECTURA + SECCIÓN ACTIVA
+   No modifica las animaciones originales
+   ===================================================== */
 
+/* Barra fina superior */
+.reading-progress{
+  position:fixed;
+  top:0;
+  left:0;
+
+  width:100%;
+  height:4px;
+
+  background:rgba(255,255,255,.22);
+
+  z-index:100000;
+
+  pointer-events:none;
+}
+
+.reading-progress-bar{
+  width:0%;
+  height:100%;
+
+  border-radius:0 10px 10px 0;
+
+  background:linear-gradient(
+    90deg,
+    #7C9BB4,
+    #A1C1A1,
+    #F7D488
+  );
+
+  box-shadow:
+    0 0 10px rgba(124,155,180,.45),
+    0 0 18px rgba(247,212,136,.28);
+
+  transition:width .08s linear;
+}
+
+
+/* Sección actual del menú */
+nav a.nav-current{
+  position:relative;
+
+  color:#35586b;
+
+  background:rgba(124,155,180,.11);
+
+  border-radius:12px;
+
+  box-shadow:
+    0 0 16px rgba(124,155,180,.16);
+}
+
+
+/* Punto luminoso debajo de la sección activa */
+nav a.nav-current::after{
+  content:"";
+
+  position:absolute;
+
+  left:50%;
+  bottom:-5px;
+
+  width:5px;
+  height:5px;
+
+  border-radius:50%;
+
+  transform:translateX(-50%);
+
+  background:#F7D488;
+
+  box-shadow:
+    0 0 8px rgba(247,212,136,.80),
+    0 0 15px rgba(124,155,180,.42);
+}
+  
   
 
 </style>
 </head>
 
 <body>
+  <div class="reading-progress" aria-hidden="true">
+  <div class="reading-progress-bar" id="reading-progress-bar"></div>
+</div>
+  
 
 <div class="holo-lines">
 <span></span>
@@ -4795,6 +4878,124 @@ if(mainNav && navToggle && navMenu){
   }, {passive:true});
 }
 
+/* =====================================================
+   PROGRESO DE LECTURA + NAVEGACIÓN ACTIVA
+   ===================================================== */
+
+const readingProgressBar =
+  document.getElementById("reading-progress-bar");
+
+function actualizarProgresoLectura(){
+
+  if(!readingProgressBar) return;
+
+  const scrollActual =
+    window.scrollY ||
+    document.documentElement.scrollTop;
+
+  const alturaTotal =
+    document.documentElement.scrollHeight -
+    window.innerHeight;
+
+  const porcentaje =
+    alturaTotal > 0
+      ? (scrollActual / alturaTotal) * 100
+      : 0;
+
+  readingProgressBar.style.width =
+    `${Math.min(100, Math.max(0, porcentaje))}%`;
+}
+
+window.addEventListener(
+  "scroll",
+  actualizarProgresoLectura,
+  {passive:true}
+);
+
+window.addEventListener(
+  "resize",
+  actualizarProgresoLectura,
+  {passive:true}
+);
+
+actualizarProgresoLectura();
+
+
+/* SECCIÓN ACTUAL DEL MENÚ */
+
+const enlacesSecciones =
+  document.querySelectorAll(
+    '#nav-menu a[href^="#"]'
+  );
+
+const seccionesNavegacion =
+  [...enlacesSecciones]
+    .map((enlace)=>{
+
+      const id =
+        enlace.getAttribute("href");
+
+      return document.querySelector(id);
+
+    })
+    .filter(Boolean);
+
+function marcarSeccionActual(id){
+
+  enlacesSecciones.forEach((enlace)=>{
+
+    enlace.classList.toggle(
+      "nav-current",
+      enlace.getAttribute("href") === `#${id}`
+    );
+
+  });
+
+}
+
+if(
+  seccionesNavegacion.length &&
+  "IntersectionObserver" in window
+){
+
+  const observadorSecciones =
+    new IntersectionObserver(
+      (entradas)=>{
+
+        const visibles =
+          entradas
+            .filter(
+              (entrada)=>
+                entrada.isIntersecting
+            )
+            .sort(
+              (a,b)=>
+                b.intersectionRatio -
+                a.intersectionRatio
+            );
+
+        if(visibles.length){
+
+          marcarSeccionActual(
+            visibles[0].target.id
+          );
+
+        }
+
+      },
+      {
+        rootMargin:"-30% 0px -55% 0px",
+        threshold:[0,.15,.3,.5]
+      }
+    );
+
+  seccionesNavegacion.forEach(
+    (seccion)=>
+      observadorSecciones.observe(seccion)
+  );
+
+}
+  
 
 /* TYPEWRITER REAL FINAL */
 
