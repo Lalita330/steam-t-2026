@@ -3202,6 +3202,95 @@ nav.menu-open .nav-toggle span:nth-child(3){transform:translateY(-7px) rotate(-4
 
 
 
+
+#
+ * Línea luminosa debajo de los títulos de cada sección */
+.section-head h2{
+  position:relative;
+  display:inline-block;
+}
+
+.section-head h2::after{
+  content:"";
+
+  position:absolute;
+  left:50%;
+  bottom:-10px;
+
+  width:72%;
+  height:3px;
+
+  border-radius:20px;
+
+  background:
+  linear-gradient(
+    90deg,
+    #7C9BB4,
+    #A1C1A1,
+    #F7D488
+  );
+
+  box-shadow:
+  0 0 10px rgba(124,155,180,.32),
+  0 0 20px rgba(247,212,136,.18);
+
+  transform:
+  translateX(-50%)
+  scaleX(0);
+
+  transform-origin:center;
+
+  opacity:0;
+
+  transition:
+  transform .9s ease .18s,
+  opacity .5s ease .18s;
+
+  pointer-events:none;
+}
+
+
+/* Se activa cuando YA se activó la animación original */
+.section-head.reveal-visible h2::after{
+  transform:
+  translateX(-50%)
+  scaleX(1);
+
+  opacity:1;
+}
+
+
+/* Pequeño brillo en la línea que aparece antes del número
+   de cada sección */
+.section-kicker::before{
+  animation:
+  kickerGlow 3.2s ease-in-out infinite;
+}
+
+
+@keyframes kickerGlow{
+
+  0%,
+  100%{
+    opacity:.55;
+    box-shadow:
+    0 0 0 rgba(124,155,180,0);
+  }
+
+  50%{
+    opacity:1;
+
+    box-shadow:
+    0 0 9px rgba(124,155,180,.42),
+    0 0 17px rgba(247,212,136,.18);
+  }
+
+}
+
+#
+
+  
+
 </style>
 </head>
 
